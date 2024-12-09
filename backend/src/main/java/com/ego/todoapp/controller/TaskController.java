@@ -17,16 +17,9 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @Autowired
-    private TaskRepository taskRepository;
-
-
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
         TaskDto tasks = taskService.createTask(taskDto);
-        if (taskDto.getTitle() == null || taskDto.getTitle().isEmpty()) {
-            throw new IllegalArgumentException("Title is required.");
-        }
         System.out.println("Title: " + taskDto.getTitle());
         System.out.println("Description: " + taskDto.getDescription());
         return new ResponseEntity<>(tasks, HttpStatus.CREATED);
@@ -46,7 +39,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TaskDto> updateTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
-        TaskDto updatedTask = taskService.updateTask(id,taskDto).getBody();
+        TaskDto updatedTask = taskService.getTaskById(id).getBody();
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
