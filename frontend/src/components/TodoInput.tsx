@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusIcon } from '@heroicons/react/24/solid';
+import { PlusCircle } from 'lucide-react';
 
 interface TodoInputProps {
   onAdd: (text: string) => void;
@@ -22,14 +22,15 @@ export function TodoInput({ onAdd }: TodoInputProps) {
         type="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Add a new todo..."
-        className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Add a new task..."
+        className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center gap-2"
       >
-        <PlusIcon className="w-5 h-5" />
+        <PlusCircle size={20} />
+        Add Task
       </button>
     </form>
   );

@@ -24,7 +24,11 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
         TaskDto tasks = taskService.createTask(taskDto);
-
+        if (taskDto.getTitle() == null || taskDto.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Title is required.");
+        }
+        System.out.println("Title: " + taskDto.getTitle());
+        System.out.println("Description: " + taskDto.getDescription());
         return new ResponseEntity<>(tasks, HttpStatus.CREATED);
     }
 

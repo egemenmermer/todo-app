@@ -35,6 +35,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto createTask(TaskDto taskDto) {
         TaskEntity taskEntity = DtotoEntity(taskDto);
+        taskEntity.setStatus("Pending");
         taskRepository.save(taskEntity);
         return taskDto;
     }
@@ -46,10 +47,10 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity updatedTaskEntity = taskRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Task with the " + id + "id not found"));
 
-        updatedTaskEntity.setTaskTitle(taskEntity.getTaskTitle());
-        updatedTaskEntity.setTaskDescription(taskEntity.getTaskDescription());
-        updatedTaskEntity.setTaskPriority(taskEntity.getTaskPriority());
-        updatedTaskEntity.setTaskStatus(taskEntity.getTaskStatus());
+        updatedTaskEntity.setTitle(taskEntity.getTitle());
+        updatedTaskEntity.setDescription(taskEntity.getDescription());
+        updatedTaskEntity.setPriority(taskEntity.getPriority());
+        updatedTaskEntity.setStatus(taskEntity.getStatus());
 
         TaskEntity updatedTask = taskRepository.save(updatedTaskEntity);
         TaskDto updatedTaskDto = EntitytoDto(updatedTask);

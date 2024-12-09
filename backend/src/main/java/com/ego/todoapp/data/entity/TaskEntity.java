@@ -23,15 +23,15 @@ public class TaskEntity  implements Serializable {
     private Long taskId;
 
     @Column(name = "task-title")
-    private String taskTitle;
+    private String title;
 
     @Column(name = "task-description")
-    private String taskDescription;
+    private String description;
 
     @Column(name = "task-priority")
-    private int taskPriority;
+    private int priority;
 
     @Column(name = "task-status")
-    private String taskStatus;
+    private String status;
 
 }
