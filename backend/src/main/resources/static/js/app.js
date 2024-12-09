@@ -1,6 +1,7 @@
 const API_URL = '/api/v1/tasks';
 let currentTaskId = null; // To track the task being edited
 
+// Fetch and render tasks
 async function fetchTodos() {
     const response = await fetch(API_URL);
     const todos = await response.json();
@@ -8,23 +9,51 @@ async function fetchTodos() {
     todoList.innerHTML = '';
 
     todos.forEach(todo => {
-        const li = document.createElement('li');
-        li.textContent = todo.title || 'No Title';
-        li.className = todo.completed ? 'completed' : '';
+        const row = document.createElement('tr');
 
-        const toggleButton = document.createElement('button');
-        toggleButton.textContent = 'Edit';
-        toggleButton.onclick = () => openEditModal(todo);
+        // Status
+        const statusCell = document.createElement('td');
+        statusCell.textContent = todo.status || 'PENDING';
+        row.appendChild(statusCell);
 
+        // Title
+        const titleCell = document.createElement('td');
+        titleCell.textContent = todo.title || 'No Title';
+        row.appendChild(titleCell);
+
+        // Description
+        const descriptionCell = document.createElement('td');
+        descriptionCell.textContent = todo.description || 'No Description';
+        row.appendChild(descriptionCell);
+
+        // Priority
+        const priorityCell = document.createElement('td');
+        priorityCell.textContent = todo.priority || 'Low';
+        row.appendChild(priorityCell);
+
+        // Edit Button
+        const editCell = document.createElement('td');
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.className = 'edit-button';
+        editButton.onclick = () => openEditModal(todo);
+        editCell.appendChild(editButton);
+        row.appendChild(editCell);
+
+        // Delete Button
+        const deleteCell = document.createElement('td');
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete-button';
         deleteButton.onclick = () => deleteTodo(todo.id);
+        deleteCell.appendChild(deleteButton);
+        row.appendChild(deleteCell);
 
-        li.appendChild(toggleButton);
-        li.appendChild(deleteButton);
-        todoList.appendChild(li);
+        todoList.appendChild(row);
     });
 }
+
+// Add a new task
 async function addTodo() {
     const input = document.getElementById('new-todo');
     const title = input.value.trim();
@@ -38,38 +67,71 @@ async function addTodo() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+            id: currentTaskId,
             title: title,
-            status: 'PENDING' })
+            description: 'Default description',
+            status: 'PENDING',
+        }),
     });
 
     input.value = '';
     fetchTodos();
 }
 
+// Open edit modal with task details
 function openEditModal(task) {
     const modal = document.getElementById('modal');
     document.getElementById('edit-title').value = task.title || '';
     document.getElementById('edit-description').value = task.description || '';
+    document.getElementById('edit-priority').value = task.priority || 'Low';
+    document.getElementById('edit-status').value = task.status || 'Pending';
+    currentTaskId = task.id; // Set the current task ID
     modal.classList.remove('hidden');
 }
 
+// Close modal
 function closeModal() {
     const modal = document.getElementById('modal');
     modal.classList.add('hidden');
 }
 
-function saveTask(event) {
+// Save task (update)
+async function saveTask(event) {
     event.preventDefault();
-    const title = document.getElementById('edit-title').value;
-    const description = document.getElementById('edit-description').value;
+    const title = document.getElementById('edit-title').value.trim();
+    const description = document.getElementById('edit-description').value.trim();
+    const priority = document.getElementById('edit-priority').value.trim();
+    const status = document.getElementById('edit-status').value.trim();
+    if (!title) {
+        alert('Title cannot be empty.');
+        return;
+    }
 
-    // Perform API call to save task
-    console.log('Saving task:', { title, description });
+    await fetch(`${API_URL}/${currentTaskId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            title: title,
+            description: description
+        }),
+    });
+
     closeModal();
+    fetchTodos();
 }
 
+/// Delete task
+//async function deleteTodo(id) {
+//    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+//    fetchTodos();
+//}
+
 async function deleteTodo(id) {
-    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    if (!id) {
+        console.error("ID is undefined or null");
+        return;
+    }
+    await fetch(`/api/v1/tasks/${id}`, { method: "DELETE" });
     fetchTodos();
 }
 

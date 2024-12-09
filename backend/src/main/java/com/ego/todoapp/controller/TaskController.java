@@ -44,8 +44,11 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTask(@PathVariable(required = false) Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Task ID is required");
+        }
         taskService.deleteTaskById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

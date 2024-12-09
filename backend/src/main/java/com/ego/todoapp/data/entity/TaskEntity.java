@@ -20,7 +20,7 @@ public class TaskEntity  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long taskId;
+    private Long id;
 
     @Column(name = "task-title")
     private String title;
@@ -29,7 +29,7 @@ public class TaskEntity  implements Serializable {
     private String description;
 
     @Column(name = "task-priority")
-    private int priority;
+    private Integer priority;
 
     @Column(name = "task-status")
     private String status;

@@ -25,12 +25,24 @@ h1 {
 }
 
 button {
-    padding: 10px;
-    background: blue;
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: blue;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     cursor: pointer;
+}
+button:hover {
+    background-color: darkblue;
+}
+
+textarea,
+input {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
 }
 
 ul {
@@ -44,6 +56,38 @@ li {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ddd;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.edit-button, .delete-button {
+    padding: 5px 10px;
+    color: white;
+    background-color: blue;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: red;
+}
+
+.edit-button:hover, .delete-button:hover {
+    opacity: 0.8;
 }
 
 li.completed {
@@ -111,7 +155,64 @@ form button {
     cursor: pointer;
     font-size: 1rem;
 }
+.hidden {
+    display: none;
+}
 
+#modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    width: 300px; /* Set a consistent width for the modal */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#modal h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    text-align: center;
+    color: #333;
+}
+
+#modal input,
+#modal textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#modal button {
+    width: 48%;
+    padding: 10px;
+    margin: 5px 1%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#modal button:hover {
+    background-color: #0056b3;
+}
+
+#modal button:last-child {
+    background-color: #6c757d;
+}
+
+#modal button:last-child:hover {
+    background-color: #5a6268;
+}
 form button:hover {
     background-color: #0056b3;
 }
