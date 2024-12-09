@@ -48,7 +48,7 @@ async function fetchTodos() {
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.className = 'edit-button';
-        editButton.onclick = () => openEditModal(todo);
+        editButton.onclick = () => openEditModal(todo.id);///////
         editCell.appendChild(editButton);
         row.appendChild(editCell);
 
@@ -57,7 +57,7 @@ async function fetchTodos() {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
-        deleteButton.onclick = () => deleteTodo(todo.id);
+        deleteButton.onclick = () => deleteTodo(todo.id);/////////
         deleteCell.appendChild(deleteButton);
         row.appendChild(deleteCell);
 
@@ -76,15 +76,25 @@ async function addTodo() {
         return;
     }
 
+    // Validate payload before sending
+    const newTask = {
+        taskId: currentTaskId,
+        title: title,
+        description: 'Default description',
+        status: 'PENDING',
+        priority: 'Low'
+    };
+
+    // Check for missing/undefined/null values
+    if (!newTask.title || !newTask.description || typeof newTask.status === 'undefined') {
+        console.error('Validation Error: Invalid task details.');
+        return;
+    }
+
     await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            id: currentTaskId,
-            title: title,
-            description: 'Default description',
-            status: 'PENDING',
-        }),
+        body: JSON.stringify(newTask),
     });
 
     input.value = '';
@@ -115,18 +125,24 @@ async function saveTask(event) {
     const description = document.getElementById('edit-description').value.trim();
     const priority = document.getElementById('edit-priority').value.trim();
     const status = document.getElementById('edit-status').value.trim();
-    if (!title) {
-        alert('Title cannot be empty.');
+
+    if (!title || !description || !status) {
+        alert('Some fields are empty.');
         return;
     }
+
+    // Construct JSON object for PUT
+    const updatedTask = {
+        title: title,
+        description: description,
+        priority: priority,
+        status: status
+    };
 
     await fetch(`${API_URL}/${currentTaskId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            title: title,
-            description: description
-        }),
+        body: JSON.stringify(updatedTask),
     });
 
     closeModal();
