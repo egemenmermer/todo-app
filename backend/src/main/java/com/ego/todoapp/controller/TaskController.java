@@ -20,6 +20,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
         TaskDto tasks = taskService.createTask(taskDto);
+        System.out.println("id: " + taskDto.getTaskId());
         System.out.println("Title: " + taskDto.getTitle());
         System.out.println("Description: " + taskDto.getDescription());
         return new ResponseEntity<>(tasks, HttpStatus.CREATED);

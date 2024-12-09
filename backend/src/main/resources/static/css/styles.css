@@ -206,6 +206,29 @@ form button {
     background-color: #0056b3;
 }
 
+/* Status indicator styles */
+.status-circle {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-pending {
+    background-color: yellow;
+    border: 1px solid #ccc;
+}
+
+.status-in-progress {
+    background-color: orange;
+    border: 1px solid #ccc;
+}
+
+.status-completed {
+    background-color: green;
+    border: 1px solid #ccc;
+}
 #modal button:last-child {
     background-color: #6c757d;
 }

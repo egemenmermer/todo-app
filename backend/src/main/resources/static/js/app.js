@@ -1,5 +1,5 @@
 const API_URL = '/api/v1/tasks';
-let currentTaskId = null; // To track the task being edited
+let currentTaskId = 0; // To track the task being edited
 
 // Fetch and render tasks
 async function fetchTodos() {
@@ -11,9 +11,21 @@ async function fetchTodos() {
     todos.forEach(todo => {
         const row = document.createElement('tr');
 
-        // Status
+        // Status with colored circle
         const statusCell = document.createElement('td');
-        statusCell.textContent = todo.status || 'PENDING';
+        const statusCircle = document.createElement('div');
+        statusCircle.classList.add('status-circle');
+
+        if (todo.status === 'PENDING') {
+            statusCircle.classList.add('status-pending');
+        } else if (todo.status === 'IN_PROGRESS') {
+            statusCircle.classList.add('status-in-progress');
+        } else if (todo.status === 'COMPLETED') {
+            statusCircle.classList.add('status-completed');
+        }
+
+        statusCell.appendChild(statusCircle);
+        statusCell.append(todo.status); // Optional: Add text next to the circle
         row.appendChild(statusCell);
 
         // Title
@@ -50,6 +62,7 @@ async function fetchTodos() {
         row.appendChild(deleteCell);
 
         todoList.appendChild(row);
+        currentTaskId++;
     });
 }
 
