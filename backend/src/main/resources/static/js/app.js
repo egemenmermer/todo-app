@@ -1,5 +1,5 @@
 const API_URL = '/api/v1/tasks';
-let currentTaskId = 0; // To track the task being edited
+let currentTaskId = null; // To track the task being edited
 
 // Fetch and render tasks
 async function fetchTodos() {
@@ -11,21 +11,9 @@ async function fetchTodos() {
     todos.forEach(todo => {
         const row = document.createElement('tr');
 
-        // Status with colored circle
+        // Status
         const statusCell = document.createElement('td');
-        const statusCircle = document.createElement('div');
-        statusCircle.classList.add('status-circle');
-
-        if (todo.status === 'PENDING') {
-            statusCircle.classList.add('status-pending');
-        } else if (todo.status === 'IN_PROGRESS') {
-            statusCircle.classList.add('status-in-progress');
-        } else if (todo.status === 'COMPLETED') {
-            statusCircle.classList.add('status-completed');
-        }
-
-        statusCell.appendChild(statusCircle);
-        statusCell.append(todo.status); // Optional: Add text next to the circle
+        statusCell.textContent = todo.status || 'Pending';
         row.appendChild(statusCell);
 
         // Title
@@ -48,22 +36,20 @@ async function fetchTodos() {
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.className = 'edit-button';
-        editButton.onclick = () => openEditModal(todo.taskId);///////
+        editButton.onclick = () => openEditModal(todo);
         editCell.appendChild(editButton);
         row.appendChild(editCell);
-
 
         // Delete Button
         const deleteCell = document.createElement('td');
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
-        deleteButton.onclick = () => deleteTodo(todo.taskId);/////////
+        deleteButton.onclick = () => deleteTodo(todo.taskId);
         deleteCell.appendChild(deleteButton);
         row.appendChild(deleteCell);
 
         todoList.appendChild(row);
-        //currentTaskId = todo.taskId;
     });
 }
 
@@ -77,29 +63,22 @@ async function addTodo() {
         return;
     }
 
-    // Validate payload before sending
-    const newTask = {
-        title: title,
-        description: 'Default description',
-        status: 'PENDING',
-        priority: 'Low'
-    };
-
-    // Check for missing/undefined/null values
-    if (!newTask.title || !newTask.description || typeof newTask.status === 'undefined') {
-        console.error('Validation Error: Invalid task details.');
-        return;
-    }
-
     await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTask),
+        body: JSON.stringify({
+            id: currentTaskId,
+            title: title,
+            description: 'Default description',
+            status: 'Pending',
+        }),
     });
 
     input.value = '';
     fetchTodos();
 }
+
+
 
 // Open edit modal with task details
 function openEditModal(task) {
@@ -123,34 +102,23 @@ async function saveTask(event) {
     event.preventDefault();
     const title = document.getElementById('edit-title').value.trim();
     const description = document.getElementById('edit-description').value.trim();
-    const priority = document.getElementById('edit-priority').value.trim();
+    //const priority = document.getElementById('edit-priority').value.trim();
     const status = document.getElementById('edit-status').value.trim();
-
-
-    if (!title || !description || !status) {
-        alert('Some fields are empty.');
+    if (!title) {
+        alert('Title cannot be empty.');
         return;
     }
 
-    // Construct JSON object for PUT
-    const updatedTask = {
-        taskId: event.target.taskId.value,
-        title: title,
-        description: description,
-        priority: priority,
-        status: status
-    };
-
-    await fetch(`${API_URL}/${event.target.taskId}`, {
+    await fetch(`${API_URL}/${currentTaskId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            taskId: event.target.taskId.value,
+            taskId: currentTaskId,
             title: title,
             description: description,
-            priority: priority,
-            status: status
-        })
+            //priority: priority,
+            status: status,
+        }),
     });
 
     closeModal();

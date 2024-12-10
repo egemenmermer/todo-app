@@ -29,7 +29,7 @@ public class TaskEntity  implements Serializable {
     private String description;
 
     @Column(name = "task-priority")
-    private Integer priority;
+    private String priority;
 
     @Column(name = "task-status")
     private String status;

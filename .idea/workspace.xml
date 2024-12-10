@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="471ac502-8a52-4ff7-88f9-51ce9c6a187c" name="Changes" comment="Initial commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ego/todoapp/data/entity/TaskEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ego/todoapp/data/entity/TaskEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/static/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/static/js/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -115,7 +116,7 @@
       <workItem from="1733738090707" duration="11440000" />
       <workItem from="1733750071471" duration="23000" />
       <workItem from="1733750111310" duration="1165000" />
-      <workItem from="1733752250973" duration="32471000" />
+      <workItem from="1733752250973" duration="35034000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -173,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733777469369</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1733835775360</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733835775360</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

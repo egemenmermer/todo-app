@@ -42,18 +42,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseEntity<TaskDto> updateTask(Long id, TaskDto taskDto) {
-        TaskEntity taskEntity = DtotoEntity(taskDto);
+        // Find the existing task by ID
+        TaskEntity existingTaskEntity = taskRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Task with the id " + id + " not found"));
 
-        TaskEntity updatedTaskEntity = taskRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Task with the " + id + "id not found"));
+        // Update fields
+        existingTaskEntity.setTitle(taskDto.getTitle());
+        existingTaskEntity.setDescription(taskDto.getDescription());
+        existingTaskEntity.setPriority(String.valueOf(taskDto.getPriority()));
+        existingTaskEntity.setStatus(taskDto.getStatus());
 
-        updatedTaskEntity.setTitle(taskEntity.getTitle());
-        updatedTaskEntity.setDescription(taskEntity.getDescription());
-        updatedTaskEntity.setPriority(taskEntity.getPriority());
-        updatedTaskEntity.setStatus(taskEntity.getStatus());
+        // Save updated entity to the database
+        TaskEntity updatedTaskEntity = taskRepository.save(existingTaskEntity);
 
-        TaskEntity updatedTask = taskRepository.save(updatedTaskEntity);
-        TaskDto updatedTaskDto = EntitytoDto(updatedTask);
+        // Convert the updated entity back to DTO
+        TaskDto updatedTaskDto = EntitytoDto(updatedTaskEntity);
         return ResponseEntity.ok(updatedTaskDto);
     }
 
