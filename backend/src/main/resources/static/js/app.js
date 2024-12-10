@@ -48,21 +48,22 @@ async function fetchTodos() {
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.className = 'edit-button';
-        editButton.onclick = () => openEditModal(todo.id);///////
+        editButton.onclick = () => openEditModal(todo.taskId);///////
         editCell.appendChild(editButton);
         row.appendChild(editCell);
+
 
         // Delete Button
         const deleteCell = document.createElement('td');
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.className = 'delete-button';
-        deleteButton.onclick = () => deleteTodo(todo.id);/////////
+        deleteButton.onclick = () => deleteTodo(todo.taskId);/////////
         deleteCell.appendChild(deleteButton);
         row.appendChild(deleteCell);
 
         todoList.appendChild(row);
-        currentTaskId++;
+        //currentTaskId = todo.taskId;
     });
 }
 
@@ -78,7 +79,6 @@ async function addTodo() {
 
     // Validate payload before sending
     const newTask = {
-        taskId: currentTaskId,
         title: title,
         description: 'Default description',
         status: 'PENDING',
@@ -108,7 +108,7 @@ function openEditModal(task) {
     document.getElementById('edit-description').value = task.description || '';
     document.getElementById('edit-priority').value = task.priority || 'Low';
     document.getElementById('edit-status').value = task.status || 'Pending';
-    currentTaskId = task.id; // Set the current task ID
+    currentTaskId = task.taskId; // Set the current task ID
     modal.classList.remove('hidden');
 }
 
@@ -126,6 +126,7 @@ async function saveTask(event) {
     const priority = document.getElementById('edit-priority').value.trim();
     const status = document.getElementById('edit-status').value.trim();
 
+
     if (!title || !description || !status) {
         alert('Some fields are empty.');
         return;
@@ -133,16 +134,23 @@ async function saveTask(event) {
 
     // Construct JSON object for PUT
     const updatedTask = {
+        taskId: event.target.taskId.value,
         title: title,
         description: description,
         priority: priority,
         status: status
     };
 
-    await fetch(`${API_URL}/${currentTaskId}`, {
+    await fetch(`${API_URL}/${event.target.taskId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedTask),
+        body: JSON.stringify({
+            taskId: event.target.taskId.value,
+            title: title,
+            description: description,
+            priority: priority,
+            status: status
+        })
     });
 
     closeModal();
