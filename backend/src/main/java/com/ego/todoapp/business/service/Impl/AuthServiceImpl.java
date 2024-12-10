@@ -28,6 +28,8 @@ public class AuthServiceImpl implements AuthService {
         UserEntity user = userRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
 
+        System.out.println(user.getPassword() + " " + user.getEmail());
+
         if (!user.getPassword().equals(loginRequestDto.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
         }

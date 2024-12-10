@@ -10,7 +10,8 @@
     </option>
   </component>
   <component name="ProjectResources">
-    <resource url="http://maven.apache.org/POM/4.0.0" location="$PROJECT_DIR$/../../web-app_4_0.xsd" />
+    <resource url="http://maven.apache.org/POM/4.0.0" location="$PROJECT_DIR$/../../maven-4.0.0.xsd" />
+    <resource url="http://www.w3.org/2001/XMLSchema-instance" location="$PROJECT_DIR$/../../XMLSchema-instance.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

@@ -71,36 +71,8 @@
         <input type="password" id="password" placeholder="Password" required>
         <button type="submit">Login</button>
     </form>
-    <div id="message" class="error-message"></div>
+    <div id="message"></div>
 </div>
-
-<script>
-    document.getElementById('login-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        const response = await fetch('http://localhost:8080/api/v1/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        const messageElement = document.getElementById('message');
-
-        if (response.ok) {
-            const message = await response.text();
-            messageElement.className = 'success-message';
-            messageElement.textContent = message;
-        } else {
-            const message = await response.text();
-            messageElement.className = 'error-message';
-            messageElement.textContent = message;
-        }
-    });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
