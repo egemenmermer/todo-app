@@ -26,10 +26,12 @@ async function fetchTodos() {
         descriptionCell.textContent = todo.description || 'No Description';
         row.appendChild(descriptionCell);
 
-        // Priority
+        /* Priority
         const priorityCell = document.createElement('td');
         priorityCell.textContent = todo.priority || 'Low';
         row.appendChild(priorityCell);
+
+         */
 
         // Edit Button
         const editCell = document.createElement('td');
@@ -85,7 +87,7 @@ function openEditModal(task) {
     const modal = document.getElementById('modal');
     document.getElementById('edit-title').value = task.title || '';
     document.getElementById('edit-description').value = task.description || '';
-    document.getElementById('edit-priority').value = task.priority || 'Low';
+    //document.getElementById('edit-priority').value = task.priority || 'Low';
     document.getElementById('edit-status').value = task.status || 'Pending';
     currentTaskId = task.taskId; // Set the current task ID
     modal.classList.remove('hidden');
@@ -102,7 +104,7 @@ async function saveTask(event) {
     event.preventDefault();
     const title = document.getElementById('edit-title').value.trim();
     const description = document.getElementById('edit-description').value.trim();
-    //const priority = document.getElementById('edit-priority').value.trim();
+    //const priority = document.getElementById('edit-priority').value;
     const status = document.getElementById('edit-status').value.trim();
     if (!title) {
         alert('Title cannot be empty.');

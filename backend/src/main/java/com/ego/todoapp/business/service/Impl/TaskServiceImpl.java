@@ -42,20 +42,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseEntity<TaskDto> updateTask(Long id, TaskDto taskDto) {
-        // Find the existing task by ID
         TaskEntity existingTaskEntity = taskRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Task with the id " + id + " not found"));
 
-        // Update fields
         existingTaskEntity.setTitle(taskDto.getTitle());
         existingTaskEntity.setDescription(taskDto.getDescription());
         existingTaskEntity.setPriority(String.valueOf(taskDto.getPriority()));
         existingTaskEntity.setStatus(taskDto.getStatus());
 
-        // Save updated entity to the database
         TaskEntity updatedTaskEntity = taskRepository.save(existingTaskEntity);
 
-        // Convert the updated entity back to DTO
         TaskDto updatedTaskDto = EntitytoDto(updatedTaskEntity);
         return ResponseEntity.ok(updatedTaskDto);
     }
